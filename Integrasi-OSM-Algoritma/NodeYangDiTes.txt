@@ -1,0 +1,6 @@
+ID : 616061324 Nama : 37 (Awal))
+ID : 431008500 Nama : 4  (Tujuan))
+ID : 430944157 Nama : 23 (Tujuan))
+
+Hasil Lintasan Yang dilalui : 
+->616061321->616061323->430944149->430944147->431008501->431008500
