@@ -19,19 +19,19 @@ public class TraceOfDijkstra {
 	private final List<Edge> edges;
 	private Set<Vertex> settledNodes;
 	private Set<Vertex> unSettledNodes;
-	private Map<Vertex, Vertex> predecessors;  //parent node
+	private Map<Vertex, Vertex> predecessors; // parent node
 	private Map<Vertex, Double> distance;
 
 	public TraceOfDijkstra(Graph graph) {
 		// Create a copy of the array so that we can operate on this array
 		this.nodes = new ArrayList<Vertex>(graph.getVertexs());
 		this.edges = new ArrayList<Edge>(graph.getEdges());
-		
-		//TODO check nodes&edges = pass
+
+		// TODO check nodes&edges = pass
 		System.err.println("=============Graph.Graph()=================");
-		System.err.println("nodes size : "+ nodes.size());
-		System.err.println("edges size : "+ edges.size());
-		
+		System.err.println("nodes size : " + nodes.size());
+		System.err.println("edges size : " + edges.size());
+
 	}
 
 	public void execute(Vertex source) {
@@ -41,35 +41,35 @@ public class TraceOfDijkstra {
 		predecessors = new HashMap<Vertex, Vertex>();
 		distance.put(source, 0d);
 		unSettledNodes.add(source);
-		
+
 		System.err.println("=============Graph.execute()=================");
-		
+
 		while (unSettledNodes.size() > 0) {
-			//TODO getMinimum = pass
+			// TODO getMinimum = pass
 			Vertex node = getMinimum(unSettledNodes);
-			
-			//TODO settle-unsettledNodes = pass
+
+			// TODO settle-unsettledNodes = pass
 			settledNodes.add(node);
 			unSettledNodes.remove(node);
-			
-			System.err.print("SettledNodes size : "+ settledNodes.size()+ " Node : ");
-			
-			for (Vertex vertex : settledNodes){
+
+			System.err.print("SettledNodes size : " + settledNodes.size()
+					+ " Node : ");
+
+			for (Vertex vertex : settledNodes) {
 				System.err.print(vertex + " | ");
 			}
 			System.err.println();
-			
-			System.err.print("unSettledNodes size : "+ unSettledNodes.size()+ " Node : ");
-			for (Vertex vertex : unSettledNodes){
+
+			System.err.print("unSettledNodes size : " + unSettledNodes.size()
+					+ " Node : ");
+			for (Vertex vertex : unSettledNodes) {
 				System.err.print(vertex + " | ");
 			}
 			System.err.println();
-			
-			//TODO findMinimalDistances = check
+
+			// TODO findMinimalDistances = check
 			findMinimalDistances(node);
-			
-			
-			
+
 		}
 		System.err.println("=============================================");
 
@@ -86,9 +86,9 @@ public class TraceOfDijkstra {
 				}
 			}
 		}
-		
-		//TODO check Minimum
-		System.err.println("\n+ getMinimum : "+minimum);
+
+		// TODO check Minimum
+		System.err.println("\n+ getMinimum : " + minimum);
 		return minimum;
 	}
 
@@ -102,26 +102,27 @@ public class TraceOfDijkstra {
 	}
 
 	private void findMinimalDistances(Vertex node) {
-		
-		//TODO check getNeighbors = pass
+
+		// TODO check getNeighbors = pass
 		List<Vertex> adjacentNodes = getNeighbors(node);
-		System.err.println("- adjacentNodes size:" +adjacentNodes.size() );
-		
+		System.err.println("- adjacentNodes size:" + adjacentNodes.size());
+
 		for (Vertex target : adjacentNodes) {
-			
+
 			if (getDistance(target) > getDistance(node)
 					+ getDistance(node, target)) {
 				distance.put(target,
 						getDistance(node) + getDistance(node, target));
-				System.err.println("- current - target distance : "+"( "+ node + " , "+target + " )" + distance.get(target));
-				
+				System.err.println("- current - target distance : " + "( "
+						+ node + " , " + target + " )" + distance.get(target));
+
 				predecessors.put(target, node);
-				
-				System.err.println("- predecessors target - current vertex : "+"( "+ target + " , "+node + " )\n");
+
+				System.err.println("- predecessors target - current vertex : "
+						+ "( " + target + " , " + node + " )\n");
 
 				unSettledNodes.add(target);
-				
-				
+
 			}
 		}
 		// TODO predecessors
@@ -141,7 +142,7 @@ public class TraceOfDijkstra {
 	private List<Vertex> getNeighbors(Vertex vertex) {
 		List<Vertex> neighbors = new ArrayList<Vertex>();
 		for (Edge edge : edges) {
-	
+
 			if (edge.getFromVertex().equals(vertex)
 					&& !isSettled(edge.getToVertex())) {
 
@@ -166,7 +167,7 @@ public class TraceOfDijkstra {
 	public LinkedList<Vertex> getPath(Vertex target) {
 		LinkedList<Vertex> path = new LinkedList<Vertex>();
 		Vertex step = target;
-		System.err.println("PREDECESSOR : "+predecessors);
+		System.err.println("PREDECESSOR : " + predecessors);
 		// Check if a path exists
 		if (predecessors.get(step) == null) {
 			return null;
@@ -178,8 +179,7 @@ public class TraceOfDijkstra {
 		}
 		// Put it into the correct order
 		Collections.reverse(path);
-		
-		
+
 		return path;
 	}
 

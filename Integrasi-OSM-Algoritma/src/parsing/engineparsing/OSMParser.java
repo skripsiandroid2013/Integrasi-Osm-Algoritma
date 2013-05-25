@@ -22,94 +22,97 @@ import parsing.model.Relation;
 import parsing.model.Way;
 
 /**
- *
+ * 
  * @author Willy Tiengo
  */
 public class OSMParser {
 
-    /**
-     * @param args the command line arguments
-     */
+	/**
+	 * @param args
+	 *            the command line arguments
+	 */
 	// throws-declaration changed by Joris Maervoet, KaHoSL
-    public static OSM parse(String path) throws ParserConfigurationException, SAXException, IOException  {
+	public static OSM parse(String path) throws ParserConfigurationException,
+			SAXException, IOException {
 
-        Document doc;
-        DocumentBuilder builder;
+		Document doc;
+		DocumentBuilder builder;
 
-        Node node;
-        NodeList nodesList;
+		Node node;
+		NodeList nodesList;
 
-        Map<String, OSMNode> nodes = new LinkedHashMap<String, OSMNode>();
+		Map<String, OSMNode> nodes = new LinkedHashMap<String, OSMNode>();
 
-        builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        doc = builder.parse(path);
+		builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		doc = builder.parse(path);
 
-        nodesList = doc.getChildNodes().item(0).getChildNodes();
+		nodesList = doc.getChildNodes().item(0).getChildNodes();
 
-        OSM osm = new OSM();
-        for (int i = 0; i < nodesList.getLength(); i++) {
+		OSM osm = new OSM();
+		for (int i = 0; i < nodesList.getLength(); i++) {
 
-            node = nodesList.item(i);
+			node = nodesList.item(i);
 
-            if (NodeParser.isNode(node)) {
+			if (NodeParser.isNode(node)) {
 
-                OSMNode osmNode = NodeParser.parseNode(node);
-                nodes.put(osmNode.id, osmNode);
-                osm.getNodes().add(osmNode);
+				OSMNode osmNode = NodeParser.parseNode(node);
+				nodes.put(osmNode.id, osmNode);
+				osm.getNodes().add(osmNode);
 
-            } else if (WayParser.isWay(node)) {
+			} else if (WayParser.isWay(node)) {
 
-                Way way = WayParser.parseWay(node, nodes);
-                // Changed by Joris Maervoet, KaHoSL
-                if (way != null) osm.getWays().add(way);
+				Way way = WayParser.parseWay(node, nodes);
+				// Changed by Joris Maervoet, KaHoSL
+				if (way != null)
+					osm.getWays().add(way);
 
-            } else if (RelationParser.isRelation(node)) {
+			} else if (RelationParser.isRelation(node)) {
 
-                Relation relation = RelationParser.parseRelation(osm, node);
-                osm.getRelations().add(relation);
+				Relation relation = RelationParser.parseRelation(osm, node);
+				osm.getRelations().add(relation);
 
-            }
-        }
+			}
+		}
 
-        Set<OSMNode> nodeset = new HashSet<OSMNode>();
+		Set<OSMNode> nodeset = new HashSet<OSMNode>();
 
-        for (String n : nodes.keySet()) {
-            nodeset.add(nodes.get(n));
-        }
+		for (String n : nodes.keySet()) {
+			nodeset.add(nodes.get(n));
+		}
 
-        return osm;
-    }
+		return osm;
+	}
 
-    protected static Map<String, String> parseTags(NodeList nodes) {
+	protected static Map<String, String> parseTags(NodeList nodes) {
 
-        Map<String, String> tags = new HashMap<String, String>();
+		Map<String, String> tags = new HashMap<String, String>();
 
-        for (int i = 0; i < nodes.getLength(); i++) {
+		for (int i = 0; i < nodes.getLength(); i++) {
 
-            Node node = nodes.item(i);
+			Node node = nodes.item(i);
 
-            if (node.getNodeName().equals("tag")) {
+			if (node.getNodeName().equals("tag")) {
 
-                addTag(tags, node);
+				addTag(tags, node);
 
-            }
-        }
+			}
+		}
 
-        return tags;
-    }
+		return tags;
+	}
 
-    private static void addTag(Map<String, String> tags, Node node) {
-        String key = node.getAttributes().getNamedItem("k").getNodeValue();
-        String value = node.getAttributes().getNamedItem("v").getNodeValue();
+	private static void addTag(Map<String, String> tags, Node node) {
+		String key = node.getAttributes().getNamedItem("k").getNodeValue();
+		String value = node.getAttributes().getNamedItem("v").getNodeValue();
 
-        if (tags.get(key) != null) {
+		if (tags.get(key) != null) {
 
-            tags.put(key, tags.get(key) + ";" + value);
+			tags.put(key, tags.get(key) + ";" + value);
 
-        } else {
+		} else {
 
-            tags.put(key, value);
+			tags.put(key, value);
 
-        }
-    }
+		}
+	}
 }

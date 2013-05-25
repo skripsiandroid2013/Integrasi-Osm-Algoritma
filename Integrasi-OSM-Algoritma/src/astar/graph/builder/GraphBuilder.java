@@ -10,14 +10,13 @@ import parsing.model.OSMNode;
 import parsing.model.Way;
 import astar.model.Graph;
 
-
 //TODO parser data osm lalu build directed graph
 public class GraphBuilder {
-	
+
 	private OSM osmData;
 	private Set<OSMNode> nodeAwalAkhir = new HashSet<OSMNode>();
 	private Graph graph = new Graph();
-	
+
 	public GraphBuilder(String file) throws Exception {
 		osmData = OSMParser.parse(file);
 		nodeAwalAkhir = getNodeAwalAkhir();
@@ -27,12 +26,11 @@ public class GraphBuilder {
 	public Graph getGraph() {
 		return graph;
 	}
-	
-	public Set<OSMNode> getNodesInGraph(){
+
+	public Set<OSMNode> getNodesInGraph() {
 		return nodeAwalAkhir;
 	}
-	
-	
+
 	private Set<OSMNode> getNodeAwalAkhir() {
 		Set<OSMNode> result = new HashSet<OSMNode>();
 		for (Way way : osmData.getWays()) {
@@ -59,17 +57,17 @@ public class GraphBuilder {
 				OSMNode previousNode = null;
 				int previousPosition = -1;
 				int position = 0;
-				
+
 				for (OSMNode currentNode : way.getNodes()) {
-					
+
 					if (nodeAwalAkhir.contains(currentNode)) {
 						if (previousNode != null) {
 							// jarak antar node
 							double jarak = way.getWayPartLength(
 									previousPosition, position + 1);
 
-							graph.addEdge(previousNode,
-									currentNode, jarak, way.getId());
+							graph.addEdge(previousNode, currentNode, jarak,
+									way.getId());
 
 						}
 						previousNode = currentNode;

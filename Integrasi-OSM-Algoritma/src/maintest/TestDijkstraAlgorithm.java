@@ -17,11 +17,13 @@ public class TestDijkstraAlgorithm {
 	private List<Vertex> nodes;
 	private List<Edge> edges;
 
-	
-	private void addJarakAntarNode(String laneId, int sourceLocNo, int destLocNo,int duration) {
-		Edge lane = new Edge(laneId,nodes.get(sourceLocNo), nodes.get(destLocNo), duration);
+	private void addJarakAntarNode(String laneId, int sourceLocNo,
+			int destLocNo, int duration) {
+		Edge lane = new Edge(laneId, nodes.get(sourceLocNo),
+				nodes.get(destLocNo), duration);
 		edges.add(lane);
 	}
+
 	public void testExcute() {
 		nodes = new ArrayList<Vertex>();
 		edges = new ArrayList<Edge>();
@@ -51,8 +53,8 @@ public class TestDijkstraAlgorithm {
 		dijkstra.execute(nodes.get(10));
 		LinkedList<Vertex> path = dijkstra.getPath(nodes.get(4));
 
-		//assertNotNull(path);
-		//assertTrue(path.size() > 0);
+		// assertNotNull(path);
+		// assertTrue(path.size() > 0);
 
 		for (Vertex vertex : path) {
 			System.out.println(vertex);
@@ -60,8 +62,7 @@ public class TestDijkstraAlgorithm {
 
 	}
 
-
-	public static void main(String []args){
+	public static void main(String[] args) {
 		new TestDijkstraAlgorithm().testExcute();
 	}
-} 
+}

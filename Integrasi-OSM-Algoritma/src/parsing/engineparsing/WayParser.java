@@ -12,69 +12,66 @@ import parsing.model.OSMNode;
 import parsing.model.Way;
 
 /**
- *
+ * 
  * @author zuq
  */
 public class WayParser {
 
-    public static boolean isWay(Node node) {
-        return node.getNodeName().equals("way");
-    }
+	public static boolean isWay(Node node) {
+		return node.getNodeName().equals("way");
+	}
 
-    public static Way parseWay(Node wayNode, Map<String, OSMNode> nodes) {
-        Way way;
+	public static Way parseWay(Node wayNode, Map<String, OSMNode> nodes) {
+		Way way;
 
-        NamedNodeMap atts = wayNode.getAttributes();
+		NamedNodeMap atts = wayNode.getAttributes();
 
-        String id = atts.getNamedItem("id").getNodeValue();
-    	// Changed by Joris Maervoet, KaHoSL
-    	// Return null when referenced nodes are not listed as node        
-        List<OSMNode> nodeList = getNodes(wayNode.getChildNodes(), nodes);
-        if (nodeList==null) return null;
-        way = new Way(
-                id,
-                getAttribute(atts, "visible"),
-                getAttribute(atts, "timestamp"),
-                getAttribute(atts, "version"),
-                getAttribute(atts, "changeset"),
-                getAttribute(atts, "user"),
-                getAttribute(atts, "uid"),
-                nodeList,
-                OSMParser.parseTags(wayNode.getChildNodes()));
+		String id = atts.getNamedItem("id").getNodeValue();
+		// Changed by Joris Maervoet, KaHoSL
+		// Return null when referenced nodes are not listed as node
+		List<OSMNode> nodeList = getNodes(wayNode.getChildNodes(), nodes);
+		if (nodeList == null)
+			return null;
+		way = new Way(id, getAttribute(atts, "visible"), getAttribute(atts,
+				"timestamp"), getAttribute(atts, "version"), getAttribute(atts,
+				"changeset"), getAttribute(atts, "user"), getAttribute(atts,
+				"uid"), nodeList, OSMParser.parseTags(wayNode.getChildNodes()));
 
-        return way;
-    }
+		return way;
+	}
 
-    // Private Methods ---------------------------------------------------------
+	// Private Methods ---------------------------------------------------------
 
-    private static String getAttribute(NamedNodeMap atts, String key) {
-        Node node = atts.getNamedItem(key);
-        return (node == null) ? null : node.getNodeValue();
-    }
+	private static String getAttribute(NamedNodeMap atts, String key) {
+		Node node = atts.getNamedItem(key);
+		return (node == null) ? null : node.getNodeValue();
+	}
 
-    private static List<OSMNode> getNodes(NodeList children, Map<String, OSMNode> nodes) {
-        List<OSMNode> result = new ArrayList<OSMNode>();
+	private static List<OSMNode> getNodes(NodeList children,
+			Map<String, OSMNode> nodes) {
+		List<OSMNode> result = new ArrayList<OSMNode>();
 
-        Node node;
-        String nodeName;
-        
-        for (int i = 0; i < children.getLength(); i++) {
-            
-            node = children.item(i);
-            nodeName = node.getNodeName();
+		Node node;
+		String nodeName;
 
-            if (nodeName.equals("nd")) {
+		for (int i = 0; i < children.getLength(); i++) {
 
-            	// Changed by Joris Maervoet, KaHoSL
-            	// Return null when referenced nodes are not listed as node
-            	OSMNode oNode = nodes.get(node.getAttributes().
-                        getNamedItem("ref").getNodeValue());
-            	if (oNode==null) return null;
-            	result.add(oNode);
-                
-            }
-        }
+			node = children.item(i);
+			nodeName = node.getNodeName();
 
-        return result;
-    }
+			if (nodeName.equals("nd")) {
+
+				// Changed by Joris Maervoet, KaHoSL
+				// Return null when referenced nodes are not listed as node
+				OSMNode oNode = nodes.get(node.getAttributes()
+						.getNamedItem("ref").getNodeValue());
+				if (oNode == null)
+					return null;
+				result.add(oNode);
+
+			}
+		}
+
+		return result;
+	}
 }

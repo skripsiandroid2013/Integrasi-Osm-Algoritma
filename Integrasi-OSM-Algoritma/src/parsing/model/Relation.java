@@ -11,92 +11,94 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * 
  * @author Willy Tiengo
  */
 public class Relation extends AbstractNode {
 
-    private OSM osm;
-    public List<Member> members;
+	private OSM osm;
+	public List<Member> members;
 
-    public Relation(OSM osm, String id, String visible, String timestamp,
-            String version, String changeset, String user,
-            String uid, List<Member> members, Map<String, String> tags) {
+	public Relation(OSM osm, String id, String visible, String timestamp,
+			String version, String changeset, String user, String uid,
+			List<Member> members, Map<String, String> tags) {
 
-        super(id, visible, timestamp, version, changeset, user, uid, tags);
-        this.osm = osm;
-        this.members = members;
-    }
+		super(id, visible, timestamp, version, changeset, user, uid, tags);
+		this.osm = osm;
+		this.members = members;
+	}
 
-    /**
-     * @return The MultiLineString of all ways members of this relation. If any
-     *         way members can not be found in the datase, returns
-     *         <code>null</code>.
-     */
-    public Polygon getPolygon() {
-        Way way;
-        List<Coordinate> lines = new ArrayList<Coordinate>();
+	/**
+	 * @return The MultiLineString of all ways members of this relation. If any
+	 *         way members can not be found in the datase, returns
+	 *         <code>null</code>.
+	 */
+	public Polygon getPolygon() {
+		Way way;
+		List<Coordinate> lines = new ArrayList<Coordinate>();
 
-        for (Member member : members) {
-            if (isWay(member)) {
-                way = osm.getWay(member.ref);
+		for (Member member : members) {
+			if (isWay(member)) {
+				way = osm.getWay(member.ref);
 
-                if (way == null) {
-                    return null;
-                }
+				if (way == null) {
+					return null;
+				}
 
-                List<Coordinate> coord = Arrays.asList(way.getLineString().getCoordinates());
+				List<Coordinate> coord = Arrays.asList(way.getLineString()
+						.getCoordinates());
 
-                if (!lines.isEmpty()) {
-                    Coordinate c = lines.get(lines.size() - 1);
+				if (!lines.isEmpty()) {
+					Coordinate c = lines.get(lines.size() - 1);
 
-                    if (!c.equals(coord.get(0))) {
+					if (!c.equals(coord.get(0))) {
 
-                        if (c.equals(coord.get(coord.size() - 1))) {
+						if (c.equals(coord.get(coord.size() - 1))) {
 
-                            Collections.reverse(coord);
+							Collections.reverse(coord);
 
-                        } else {
+						} else {
 
-                            Collections.reverse(lines);
-                            c = lines.get(lines.size() - 1);
-                            
-                            if (!c.equals(coord.get(0))) {
-                                Collections.reverse(coord);
-                            }
+							Collections.reverse(lines);
+							c = lines.get(lines.size() - 1);
 
-                        }
+							if (!c.equals(coord.get(0))) {
+								Collections.reverse(coord);
+							}
 
-                    }
-                }
+						}
 
-                lines.addAll(coord);
-            }
-        }
+					}
+				}
 
-        GeometryFactory fac = new GeometryFactory();
-        return fac.createPolygon(fac.createLinearRing(lines.toArray(
-                new Coordinate[0])), null);
-    }
+				lines.addAll(coord);
+			}
+		}
 
-    public boolean isBoundary() {
-        return tags.get("boundary") != null;
-    }
+		GeometryFactory fac = new GeometryFactory();
+		return fac.createPolygon(
+				fac.createLinearRing(lines.toArray(new Coordinate[0])), null);
+	}
 
-    public int getAdminLevel() {
-        return Integer.parseInt(tags.get("admin_level"));
-    }
+	public boolean isBoundary() {
+		return tags.get("boundary") != null;
+	}
 
-    public String getName() {
-        return tags.get("name");
-    }
+	public int getAdminLevel() {
+		return Integer.parseInt(tags.get("admin_level"));
+	}
 
-    public String getShape() {
-        Polygon pol = getPolygon();
-        return (pol != null) ? WKBWriter.toHex(new WKBWriter().write(pol)) : null;
-    }
+	public String getName() {
+		return tags.get("name");
+	}
 
-    private boolean isWay(Member m) {
-        return m.type.equals("way");
-    }
+	public String getShape() {
+		Polygon pol = getPolygon();
+		return (pol != null) ? WKBWriter.toHex(new WKBWriter().write(pol))
+				: null;
+	}
+
+	private boolean isWay(Member m) {
+		return m.type.equals("way");
+	}
 }

@@ -103,13 +103,11 @@ public class Way extends AbstractNode {
 					|| (highway.equals("bus_guideway"))
 					|| (highway.equals("construction"))
 					|| (highway.equals("cycleway"))
-					|| (highway.equals("footway")) 
-					|| (highway.equals("path"))
+					|| (highway.equals("footway")) || (highway.equals("path"))
 					|| (highway.equals("pedestrian"))
 					|| (highway.equals("proposed"))
 					|| (highway.equals("raceway"))
-					|| (highway.equals("service")) 
-					|| (highway.equals("steps"))) {
+					|| (highway.equals("service")) || (highway.equals("steps"))) {
 				return false;
 			} else {
 				return true;
@@ -118,7 +116,6 @@ public class Way extends AbstractNode {
 		return false;
 	}
 
-	
 	// Added by Joris Maervoet, KaHoSL
 	public String getMaxSpeed() {
 		return tags.get("maxspeed");

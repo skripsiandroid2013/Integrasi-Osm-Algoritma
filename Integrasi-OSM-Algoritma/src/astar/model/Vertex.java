@@ -4,22 +4,19 @@ import java.util.LinkedList;
 
 import parsing.model.OSMNode;
 
-
 //TODO add latlon
 public class Vertex implements Comparable<Vertex> {
-	
+
 	public LinkedList<Edge> adjacencies = new LinkedList<Edge>();
 	public double minDistance = Double.POSITIVE_INFINITY;
 	public Vertex previous;
 
 	private OSMNode node;
 
-	
 	public Vertex(OSMNode node) {
 		this.setNode(node);
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return node.id;
@@ -31,12 +28,12 @@ public class Vertex implements Comparable<Vertex> {
 	}
 
 	public OSMNode getNode(String id) {
-		if (this.node.id.equals(id)){
+		if (this.node.id.equals(id)) {
 			return this.node;
 		}
 		return null;
 	}
-	
+
 	public OSMNode getNode() {
 		return node;
 	}
@@ -45,7 +42,6 @@ public class Vertex implements Comparable<Vertex> {
 		this.node = node;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -53,7 +49,6 @@ public class Vertex implements Comparable<Vertex> {
 		result = prime * result + ((node == null) ? 0 : node.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -71,7 +66,5 @@ public class Vertex implements Comparable<Vertex> {
 			return false;
 		return true;
 	}
-	
-	
 
 }

@@ -20,34 +20,31 @@ public class AStar {
 	private Set<Vertex> openList;
 	private Set<Vertex> closedList;
 	private Vertex goal;
-	
+
 	private AStarHeuristic heuristic;
 
 	private Map<Vertex, Vertex> predecessors; // parent vertex
 	private Map<Vertex, Double> g_score;
-	
 
 	public AStar(Graph graph, AStarHeuristic heuristic) {
 		new ArrayList<Vertex>(graph.getVertexs());
 		this.edges = new ArrayList<Edge>(graph.getEdges());
 		this.heuristic = heuristic;
 	}
-	
+
 	public void execute(Vertex source, Vertex goal) {
 		this.goal = goal;
-		
+
 		closedList = new HashSet<Vertex>(); // close
 		openList = new HashSet<Vertex>(); // open
 
 		g_score = new HashMap<Vertex, Double>();
-		
 
 		predecessors = new HashMap<Vertex, Vertex>();
 
 		g_score.put(source, 0d);
-		//TODO hitung heuristic
-		
-		
+		// TODO hitung heuristic
+
 		openList.add(source);
 
 		while (openList.size() != 0) {
@@ -55,7 +52,7 @@ public class AStar {
 
 			closedList.add(current);
 			openList.remove(current);
-		
+
 			evaluasiSuksessor(current, goal);
 		}
 	}
@@ -80,8 +77,7 @@ public class AStar {
 	private double getShortestDistance(Vertex target) {
 		Double g = g_score.get(target);
 		Double h = heuristic.getNilaiHeuristic(target, goal);
-		
-	
+
 		if (g == null) {
 			return Integer.MAX_VALUE;
 		} else {
@@ -89,19 +85,20 @@ public class AStar {
 		}
 	}
 
-
 	// sorting
 	private void evaluasiSuksessor(Vertex current, Vertex goal) {
 		List<Vertex> suksesors = getNeighbors(current); // bangkitkan semua
 														// suksesor S
 
 		for (Vertex target : suksesors) {
-		
+
 			if (getShortestDistance(target) > getShortestDistance(current)
 					+ getDistance(current, target)) {
 
-				g_score.put(target,
-						getShortestDistance(current)+ getDistance(current, target));
+				g_score.put(
+						target,
+						getShortestDistance(current)
+								+ getDistance(current, target));
 
 				predecessors.put(target, current);
 
@@ -120,7 +117,6 @@ public class AStar {
 		}
 		throw new RuntimeException("Should not happen");
 	}
-
 
 	private List<Vertex> getNeighbors(Vertex node) {
 		List<Vertex> neighbors = new ArrayList<Vertex>();

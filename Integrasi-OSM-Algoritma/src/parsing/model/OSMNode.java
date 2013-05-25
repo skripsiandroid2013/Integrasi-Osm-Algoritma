@@ -12,47 +12,46 @@ import com.vividsolutions.jts.io.WKBWriter;
 import java.util.Map;
 
 /**
- *
+ * 
  * @author Willy Tiengo
  */
-public class OSMNode extends AbstractNode{
+public class OSMNode extends AbstractNode {
 
-    public String lat;
-    public String lon;
+	public String lat;
+	public String lon;
 
-    public OSMNode(String id, String visible, String timestamp, String version, String changeset, String user, String uid, String lat, String lon, Map<String, String> tags) {
-        super(id, visible, timestamp, version, changeset, user, uid, tags);
-        this.lat = lat;
-        this.lon = lon;
-        this.tags = tags;
-    }
-
-
+	public OSMNode(String id, String visible, String timestamp, String version,
+			String changeset, String user, String uid, String lat, String lon,
+			Map<String, String> tags) {
+		super(id, visible, timestamp, version, changeset, user, uid, tags);
+		this.lat = lat;
+		this.lon = lon;
+		this.tags = tags;
+	}
 
 	public String getLocation() {
-        Point p = new GeometryFactory().createPoint(
-                new Coordinate(Double.valueOf(lon), Double.valueOf(lat)));
+		Point p = new GeometryFactory().createPoint(new Coordinate(Double
+				.valueOf(lon), Double.valueOf(lat)));
 
-        return WKBWriter.toHex(new WKBWriter().write(p));
-    }
-    
-    //Added by Joris Maervoet, KaHoSL
-    public Point getPoint() {
-        Point p = new GeometryFactory().createPoint(
-                new Coordinate(Double.valueOf(lon), Double.valueOf(lat)));
+		return WKBWriter.toHex(new WKBWriter().write(p));
+	}
 
-        return p;
-    }
+	// Added by Joris Maervoet, KaHoSL
+	public Point getPoint() {
+		Point p = new GeometryFactory().createPoint(new Coordinate(Double
+				.valueOf(lon), Double.valueOf(lat)));
 
-
+		return p;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		final OSMNode other = (OSMNode) obj;
 
-        return super.equals(lat != null && lon !=null ? lat.equals(other.lat) && lon.equals(other.lon) : false);
-	
-	}  
-    
+		return super.equals(lat != null && lon != null ? lat.equals(other.lat)
+				&& lon.equals(other.lon) : false);
+
+	}
+
 }

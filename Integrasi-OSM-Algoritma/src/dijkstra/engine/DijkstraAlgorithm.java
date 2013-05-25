@@ -13,8 +13,6 @@ import dijkstra.model.Edge;
 import dijkstra.model.Graph;
 import dijkstra.model.Vertex;
 
-
-
 public class DijkstraAlgorithm {
 	@SuppressWarnings("unused")
 	private final List<Vertex> listNodes;
@@ -38,7 +36,7 @@ public class DijkstraAlgorithm {
 		MapDistance.put(awal, 0);
 		unSettledNodes.add(awal);
 		while (unSettledNodes.size() > 0) {
-			//System.out.println("di dalam exec()="+unSettledNodes.size());
+			// System.out.println("di dalam exec()="+unSettledNodes.size());
 			Vertex node = getMinimum(unSettledNodes);
 			settledNodes.add(node);
 			unSettledNodes.remove(node);
@@ -49,8 +47,10 @@ public class DijkstraAlgorithm {
 	private void findMinimalDistances(Vertex node) {
 		List<Vertex> adjacentNodes = getNeighbors(node);
 		for (Vertex target : adjacentNodes) {
-			if (getShortestDistance(target) > (getShortestDistance(node) + getDistance(node, target))) {
-				MapDistance.put(target, getShortestDistance(node) + getDistance(node, target));
+			if (getShortestDistance(target) > (getShortestDistance(node) + getDistance(
+					node, target))) {
+				MapDistance.put(target, getShortestDistance(node)
+						+ getDistance(node, target));
 				MapPredecessors.put(target, node);
 				unSettledNodes.add(target);
 			}
@@ -59,7 +59,8 @@ public class DijkstraAlgorithm {
 
 	private int getDistance(Vertex node, Vertex target) {
 		for (Edge edge : listEdges) {
-			if (edge.getSource().equals(node) && edge.getDestination().equals(target)) {
+			if (edge.getSource().equals(node)
+					&& edge.getDestination().equals(target)) {
 				return edge.getWeight();
 			}
 		}
@@ -83,8 +84,7 @@ public class DijkstraAlgorithm {
 			if (minimum == null) {
 				minimum = vertex;
 			} else {
-				if (getShortestDistance(vertex) < getShortestDistance(minimum))
-				{
+				if (getShortestDistance(vertex) < getShortestDistance(minimum)) {
 					minimum = vertex;
 				}
 			}
@@ -126,4 +126,4 @@ public class DijkstraAlgorithm {
 		return path;
 	}
 
-} 
+}

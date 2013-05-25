@@ -3,10 +3,7 @@ package astar.test;
 import geocoding.engine.Geocode;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
-
 import org.junit.Test;
 
 import parsing.model.OSMNode;
@@ -18,7 +15,6 @@ import astar.graph.builder.GraphBuilder;
 import astar.model.Graph;
 import astar.model.Key;
 import astar.model.Vertex;
-
 
 public class TestAstar {
 
@@ -35,57 +31,50 @@ public class TestAstar {
 		String location[] = Geocode.request();
 		System.out.println(location[0] + ", " + location[1]);
 
-	
 		/*
 		 * MATCH 1
 		 */
 
-//		int i = 0;
-//		OSMNode hasilAkjhir = null;
-//		for (Vertex vertex : graph.getVertexs()) {
-//			OSMNode node = vertex.getNode();
-//			double jarak = 0;
-//			if (i != 0) {
-//				if (jarak < LatLongUtil.distance(lat, lon,
-//						Double.parseDouble(node.lat),
-//						Double.parseDouble(node.lon))) {
-//					hasilAkjhir = node;
-//					jarak = LatLongUtil.distance(lat, lon,
-//							Double.parseDouble(node.lat),
-//							Double.parseDouble(node.lon));
-//					System.out.println("x" + jarak);
-//				}
-//			} else {
-//				jarak = LatLongUtil.distance(lat, lon,
-//						Double.parseDouble(node.lat),
-//						Double.parseDouble(node.lon));
-//				System.out.println("a" + jarak);
-//			}
-//			i++;
-//		}
-//
-//		System.out.println(hasilAkjhir.id);
+		// int i = 0;
+		// OSMNode hasilAkjhir = null;
+		// for (Vertex vertex : graph.getVertexs()) {
+		// OSMNode node = vertex.getNode();
+		// double jarak = 0;
+		// if (i != 0) {
+		// if (jarak < LatLongUtil.distance(lat, lon,
+		// Double.parseDouble(node.lat),
+		// Double.parseDouble(node.lon))) {
+		// hasilAkjhir = node;
+		// jarak = LatLongUtil.distance(lat, lon,
+		// Double.parseDouble(node.lat),
+		// Double.parseDouble(node.lon));
+		// System.out.println("x" + jarak);
+		// }
+		// } else {
+		// jarak = LatLongUtil.distance(lat, lon,
+		// Double.parseDouble(node.lat),
+		// Double.parseDouble(node.lon));
+		// System.out.println("a" + jarak);
+		// }
+		// i++;
+		// }
+		//
+		// System.out.println(hasilAkjhir.id);
 
-	
+		OSMNode minNode = doMatching(graph.getVertexs(),
+				Double.parseDouble(location[0]),
+				Double.parseDouble(location[1]));
 
-
-
-	
-		OSMNode minNode = doMatching(graph.getVertexs(), 
-				Double.parseDouble(location[0]), Double.parseDouble(location[1]));
-	
-	
-		
 		Vertex start = graph.fromVertex(new Key(minNode.lat, minNode.lon));
 		System.out.println(start.getNode());
-		
+
 		Vertex goal = graph.toVertex(new Key("-7.2517932", "112.6502037"));
 
 		aStar.execute(start, goal);
 
 		LinkedList<Vertex> path = aStar.getPath();
-		
-		if (path!=null){
+
+		if (path != null) {
 
 			System.out.print("[");
 			for (Vertex vertex : path) {
@@ -93,8 +82,7 @@ public class TestAstar {
 			}
 			System.out.print("]");
 			System.out.println();
-		} 
-	
+		}
 
 	}
 

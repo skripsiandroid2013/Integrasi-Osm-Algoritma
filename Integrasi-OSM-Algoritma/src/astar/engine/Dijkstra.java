@@ -10,31 +10,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import parsing.model.OSMNode;
-
 import astar.model.Edge;
 import astar.model.Graph;
-import astar.model.Key;
 import astar.model.Vertex;
-import astar.util.MapMatchingUtil;
 
 public class Dijkstra {
-
 
 	private final List<Vertex> nodes;
 	private final List<Edge> edges;
 	private Set<Vertex> settledNodes;
 	private Set<Vertex> unSettledNodes;
-	private Map<Vertex, Vertex> predecessors;  //parent node
+	private Map<Vertex, Vertex> predecessors; // parent node
 	private Map<Vertex, Double> distance;
 
 	public Dijkstra(Graph graph) {
 		// Create a copy of the array so that we can operate on this array
-		
+
 		this.nodes = new ArrayList<Vertex>(graph.getVertexs());
 		this.edges = new ArrayList<Edge>(graph.getEdges());
-		
-	
+
 	}
 
 	public void execute(Vertex source) {
@@ -44,24 +38,20 @@ public class Dijkstra {
 		predecessors = new HashMap<Vertex, Vertex>();
 		distance.put(source, 0d);
 		unSettledNodes.add(source);
-		
-				
+
 		while (unSettledNodes.size() > 0) {
-			//TODO getMinimum = pass
-			
+			// TODO getMinimum = pass
+
 			Vertex node = getMinimum(unSettledNodes);
-			
-			//TODO settle-unsettledNodes = pass
+
+			// TODO settle-unsettledNodes = pass
 			settledNodes.add(node);
 			unSettledNodes.remove(node);
-				
-			//TODO findMinimalDistances = pass
+
+			// TODO findMinimalDistances = pass
 			findMinimalDistances(node);
-			
-			
-			
+
 		}
-	
 
 	}
 
@@ -76,7 +66,6 @@ public class Dijkstra {
 				}
 			}
 		}
-		
 
 		return minimum;
 	}
@@ -91,26 +80,23 @@ public class Dijkstra {
 	}
 
 	private void findMinimalDistances(Vertex node) {
-		
-	
+
 		List<Vertex> adjacentNodes = getNeighbors(node);
 
-		
 		for (Vertex target : adjacentNodes) {
-			
+
 			if (getDistance(target) > getDistance(node)
 					+ getDistance(node, target)) {
 				distance.put(target,
 						getDistance(node) + getDistance(node, target));
-				
+
 				predecessors.put(target, node);
-			
+
 				unSettledNodes.add(target);
-				
-				
+
 			}
 		}
-		
+
 	}
 
 	private double getDistance(Vertex node, Vertex target) {
@@ -126,12 +112,12 @@ public class Dijkstra {
 	private List<Vertex> getNeighbors(Vertex vertex) {
 		List<Vertex> neighbors = new ArrayList<Vertex>();
 		for (Edge edge : edges) {
-	
+
 			if (edge.getFromVertex().equals(vertex)
 					&& !isSettled(edge.getToVertex())) {
 
 				neighbors.add(edge.getToVertex());
-				
+
 			}
 
 		}
@@ -161,16 +147,13 @@ public class Dijkstra {
 		}
 		// Put it into the correct order
 		Collections.reverse(path);
-		
-	//	System.err.println("\n"+predecessors);
+
+		// System.err.println("\n"+predecessors);
 		return path;
 	}
 
 	public Collection<Vertex> getPredecessors() {
 		return predecessors.values();
 	}
-
-	
-	
 
 }

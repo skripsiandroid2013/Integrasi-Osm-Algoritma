@@ -25,8 +25,7 @@ public class TestGraph {
 
 		String[] location = Geocode.request();
 		System.out.println(location[0] + ", " + location[1]);
-		
-		
+
 		OSMNode matchNode = doMatching(graph.getVertexs(),
 				Double.parseDouble("-7.2517240"),
 				Double.parseDouble("112.6501230"));
@@ -35,31 +34,31 @@ public class TestGraph {
 		 * MATCH 1
 		 */
 
-//		int i = 0;
-//		OSMNode hasilAkjhir = null;
-//		for (Vertex vertex : graph.getVertexs()) {
-//			OSMNode node = vertex.getNode();
-//			double jarak = 0;
-//			if (i != 0) {
-//				if (jarak < LatLongUtil.distance(lat, lon,
-//						Double.parseDouble(node.lat),
-//						Double.parseDouble(node.lon))) {
-//					hasilAkjhir = node;
-//					jarak = LatLongUtil.distance(lat, lon,
-//							Double.parseDouble(node.lat),
-//							Double.parseDouble(node.lon));
-//					System.out.println("x" + jarak);
-//				}
-//			} else {
-//				jarak = LatLongUtil.distance(lat, lon,
-//						Double.parseDouble(node.lat),
-//						Double.parseDouble(node.lon));
-//				System.out.println("a" + jarak);
-//			}
-//			i++;
-//		}
-//
-//		System.out.println(hasilAkjhir.id);
+		// int i = 0;
+		// OSMNode hasilAkjhir = null;
+		// for (Vertex vertex : graph.getVertexs()) {
+		// OSMNode node = vertex.getNode();
+		// double jarak = 0;
+		// if (i != 0) {
+		// if (jarak < LatLongUtil.distance(lat, lon,
+		// Double.parseDouble(node.lat),
+		// Double.parseDouble(node.lon))) {
+		// hasilAkjhir = node;
+		// jarak = LatLongUtil.distance(lat, lon,
+		// Double.parseDouble(node.lat),
+		// Double.parseDouble(node.lon));
+		// System.out.println("x" + jarak);
+		// }
+		// } else {
+		// jarak = LatLongUtil.distance(lat, lon,
+		// Double.parseDouble(node.lat),
+		// Double.parseDouble(node.lon));
+		// System.out.println("a" + jarak);
+		// }
+		// i++;
+		// }
+		//
+		// System.out.println(hasilAkjhir.id);
 
 	}
 
@@ -98,7 +97,7 @@ public class TestGraph {
 
 		System.out.println(" minNode lat : " + minNode.lat);
 		System.out.println(" minNode lon : " + minNode.lon);
-		
+
 		System.out.println(" minNode jarak : "
 				+ LatLongUtil.distance(gpsLat, gpsLon,
 						Double.parseDouble(minNode.lat),

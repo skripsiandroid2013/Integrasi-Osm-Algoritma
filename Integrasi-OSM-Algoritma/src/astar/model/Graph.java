@@ -7,20 +7,19 @@ import java.util.List;
 
 import parsing.model.OSMNode;
 
-
 public class Graph {
 
-	private HashMap<Key, Vertex>  vertices = new HashMap<>();
+	private HashMap<Key, Vertex> vertices = new HashMap<>();
 
 	public void addEdge(OSMNode fromNode, OSMNode toNode, double jarak,
 			String edgeId) {
 		Vertex fromVertex = vertices.get(new Key(fromNode.lat, fromNode.lon));
 		if (fromVertex == null) {
 			fromVertex = new Vertex(fromNode);
-			
+
 			putLatLon(fromNode.lat, fromNode.lon, fromVertex);
-			
-		//	System.out.println(vertices.keySet());
+
+			// System.out.println(vertices.keySet());
 
 		}
 		Vertex toVertex = vertices.get(new Key(toNode.lat, toNode.lon));
@@ -28,7 +27,7 @@ public class Graph {
 			toVertex = new Vertex(toNode);
 			putLatLon(toNode.lat, toNode.lon, toVertex);
 		}
-		
+
 		fromVertex.adjacencies
 				.add(new Edge(fromVertex, toVertex, jarak, edgeId));
 	}
@@ -60,8 +59,7 @@ public class Graph {
 		return vertices.get(id);
 	}
 
-	private void putLatLon(String lat, String lon,
-			Vertex value) {
+	private void putLatLon(String lat, String lon, Vertex value) {
 
 		Key key = new Key(lat, lon);
 		vertices.put(key, value);
