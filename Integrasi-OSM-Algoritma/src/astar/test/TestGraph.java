@@ -1,5 +1,10 @@
 package astar.test;
+
 import static org.junit.Assert.assertNotNull;
+
+import java.util.Collection;
+
+import geocoding.engine.Geocode;
 
 import org.junit.Test;
 
@@ -10,45 +15,96 @@ import astar.graph.builder.GraphBuilder;
 import astar.model.Graph;
 import astar.model.Vertex;
 
-
 public class TestGraph {
-	
+
 	@Test
-	public  void testGraphBuilder() throws Exception {
+	public void testGraphBuilder() throws Exception {
 		GraphBuilder builder = new GraphBuilder("data/surabaya.osm");
 		Graph graph = builder.getGraph();
 		assertNotNull("graph loaded !", graph);
-		
-		double lat = -7.24917;
-		double lon = 112.751;
-		int i=0;
-		OSMNode hasilAkjhir=null;
-		for (Vertex vertex : graph.getVertexs()){
-			OSMNode node = vertex.getNode();
-			double jarak=0;
-			if(i!=0){
-				if(jarak<LatLongUtil.distance(lat, lon, 
-						Double.parseDouble(node.lat), Double.parseDouble(node.lon))){
-					hasilAkjhir=node;
-					jarak=LatLongUtil.distance(lat, lon, 
-							Double.parseDouble(node.lat), Double.parseDouble(node.lon));
-					System.out.println("x"+jarak);
-				}
-			}else{
-				jarak=LatLongUtil.distance(lat, lon, 
-						Double.parseDouble(node.lat), Double.parseDouble(node.lon));
-				System.out.println("a"+jarak);
-			}
-			i++;
-		}
-	
-		System.out.println(hasilAkjhir.id);
+
+		String[] location = Geocode.request();
+		System.out.println(location[0] + ", " + location[1]);
 		
 		
-		
-//		for (Vertex vertex : graph.getVertexs()){
-//			System.out.println("\""+vertex.getNode().lat +"\""+",\""+ vertex.getNode().lon+"\"");
+		OSMNode matchNode = doMatching(graph.getVertexs(),
+				Double.parseDouble("-7.2517240"),
+				Double.parseDouble("112.6501230"));
+
+		/*
+		 * MATCH 1
+		 */
+
+//		int i = 0;
+//		OSMNode hasilAkjhir = null;
+//		for (Vertex vertex : graph.getVertexs()) {
+//			OSMNode node = vertex.getNode();
+//			double jarak = 0;
+//			if (i != 0) {
+//				if (jarak < LatLongUtil.distance(lat, lon,
+//						Double.parseDouble(node.lat),
+//						Double.parseDouble(node.lon))) {
+//					hasilAkjhir = node;
+//					jarak = LatLongUtil.distance(lat, lon,
+//							Double.parseDouble(node.lat),
+//							Double.parseDouble(node.lon));
+//					System.out.println("x" + jarak);
+//				}
+//			} else {
+//				jarak = LatLongUtil.distance(lat, lon,
+//						Double.parseDouble(node.lat),
+//						Double.parseDouble(node.lon));
+//				System.out.println("a" + jarak);
+//			}
+//			i++;
 //		}
+//
+//		System.out.println(hasilAkjhir.id);
 
 	}
+
+	/*
+	 * MATCH 2
+	 */
+
+	private OSMNode doMatching(Collection<Vertex> vertexs, double gpsLat,
+			double gpsLon) {
+		OSMNode minNode = null;
+
+		double minJarak = Double.MAX_VALUE;
+		for (Vertex vertex : vertexs) {
+
+			OSMNode node2 = vertex.getNode();
+
+			double jarak = LatLongUtil.distance(gpsLat, gpsLon,
+					Double.parseDouble(node2.lat),
+					Double.parseDouble(node2.lon));
+
+			// System.out.println(jarak);
+
+			if (jarak < minJarak) {
+				minJarak = jarak;
+				minNode = node2;
+			}
+
+		}
+
+		// TEST
+		System.out.println("======================================");
+
+		System.out.println(" minJarak : " + minJarak);
+
+		System.out.println(" minNode id : " + minNode.id);
+
+		System.out.println(" minNode lat : " + minNode.lat);
+		System.out.println(" minNode lon : " + minNode.lon);
+		
+		System.out.println(" minNode jarak : "
+				+ LatLongUtil.distance(gpsLat, gpsLon,
+						Double.parseDouble(minNode.lat),
+						Double.parseDouble(minNode.lon)));
+
+		return minNode;
+	}
+
 }

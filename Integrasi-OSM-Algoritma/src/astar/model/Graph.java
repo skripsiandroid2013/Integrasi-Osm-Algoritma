@@ -28,6 +28,7 @@ public class Graph {
 			toVertex = new Vertex(toNode);
 			putLatLon(toNode.lat, toNode.lon, toVertex);
 		}
+		
 		fromVertex.adjacencies
 				.add(new Edge(fromVertex, toVertex, jarak, edgeId));
 	}

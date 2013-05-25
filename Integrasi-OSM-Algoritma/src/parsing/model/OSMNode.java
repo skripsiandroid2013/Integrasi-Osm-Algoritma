@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author Willy Tiengo
  */
-public class OSMNode extends AbstractNode {
+public class OSMNode extends AbstractNode{
 
     public String lat;
     public String lon;
@@ -53,8 +53,6 @@ public class OSMNode extends AbstractNode {
 
         return super.equals(lat != null && lon !=null ? lat.equals(other.lat) && lon.equals(other.lon) : false);
 	
-	}
-
-    
+	}  
     
 }

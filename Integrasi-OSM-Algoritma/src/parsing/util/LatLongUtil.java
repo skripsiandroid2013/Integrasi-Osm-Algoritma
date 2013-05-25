@@ -14,10 +14,12 @@ public class LatLongUtil {
 
         dist = Math.acos(dist);
         dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515;
+        dist = dist * 60 * 1.1515; //M
 
-        dist = dist * 1.609344 * 1000;
-
+//        dist = dist * 1.609344 * 1000; // m
+        dist = dist * 1.609344; //km
+//        dist = dist * 0.8684; //n
+        
         return dist;
     }
 
@@ -29,15 +31,17 @@ public class LatLongUtil {
         return (rad * 180.0 / Math.PI);
     }
 
-    private static double fixAngle(double angle) {
-        while (angle < -180) {
-            angle += 360;
-        }
-
-        while (angle > 180) {
-            angle -= 360;
-        }
-
-        return angle;
-    }
+//    public static double fixAngle(double angle) {
+//        while (angle < -180) {
+//            angle += 360;
+//        }
+//
+//        while (angle > 180) {
+//            angle -= 360;
+//        }
+//
+//        return angle;
+//    }
+    
+    
 }
