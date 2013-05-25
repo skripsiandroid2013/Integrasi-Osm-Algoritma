@@ -1,7 +1,6 @@
 package astar.engine;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,16 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import parsing.model.OSMNode;
-
 import astar.model.Edge;
 import astar.model.Graph;
-import astar.model.Key;
 import astar.model.Vertex;
-import astar.util.MapMatchingUtil;
 
-public class Dijkstra {
-
+public class TraceOfDijkstra {
 
 	private final List<Vertex> nodes;
 	private final List<Edge> edges;
@@ -28,13 +22,16 @@ public class Dijkstra {
 	private Map<Vertex, Vertex> predecessors;  //parent node
 	private Map<Vertex, Double> distance;
 
-	public Dijkstra(Graph graph) {
+	public TraceOfDijkstra(Graph graph) {
 		// Create a copy of the array so that we can operate on this array
-		
 		this.nodes = new ArrayList<Vertex>(graph.getVertexs());
 		this.edges = new ArrayList<Edge>(graph.getEdges());
 		
-	
+		//TODO check nodes&edges = pass
+		System.err.println("=============Graph.Graph()=================");
+		System.err.println("nodes size : "+ nodes.size());
+		System.err.println("edges size : "+ edges.size());
+		
 	}
 
 	public void execute(Vertex source) {
@@ -45,23 +42,36 @@ public class Dijkstra {
 		distance.put(source, 0d);
 		unSettledNodes.add(source);
 		
-				
+		System.err.println("=============Graph.execute()=================");
+		
 		while (unSettledNodes.size() > 0) {
 			//TODO getMinimum = pass
-			
 			Vertex node = getMinimum(unSettledNodes);
 			
 			//TODO settle-unsettledNodes = pass
 			settledNodes.add(node);
 			unSettledNodes.remove(node);
-				
-			//TODO findMinimalDistances = pass
+			
+			System.err.print("SettledNodes size : "+ settledNodes.size()+ " Node : ");
+			
+			for (Vertex vertex : settledNodes){
+				System.err.print(vertex + " | ");
+			}
+			System.err.println();
+			
+			System.err.print("unSettledNodes size : "+ unSettledNodes.size()+ " Node : ");
+			for (Vertex vertex : unSettledNodes){
+				System.err.print(vertex + " | ");
+			}
+			System.err.println();
+			
+			//TODO findMinimalDistances = check
 			findMinimalDistances(node);
 			
 			
 			
 		}
-	
+		System.err.println("=============================================");
 
 	}
 
@@ -77,7 +87,8 @@ public class Dijkstra {
 			}
 		}
 		
-
+		//TODO check Minimum
+		System.err.println("\n+ getMinimum : "+minimum);
 		return minimum;
 	}
 
@@ -92,9 +103,9 @@ public class Dijkstra {
 
 	private void findMinimalDistances(Vertex node) {
 		
-	
+		//TODO check getNeighbors = pass
 		List<Vertex> adjacentNodes = getNeighbors(node);
-
+		System.err.println("- adjacentNodes size:" +adjacentNodes.size() );
 		
 		for (Vertex target : adjacentNodes) {
 			
@@ -102,15 +113,19 @@ public class Dijkstra {
 					+ getDistance(node, target)) {
 				distance.put(target,
 						getDistance(node) + getDistance(node, target));
+				System.err.println("- current - target distance : "+"( "+ node + " , "+target + " )" + distance.get(target));
 				
 				predecessors.put(target, node);
-			
+				
+				System.err.println("- predecessors target - current vertex : "+"( "+ target + " , "+node + " )\n");
+
 				unSettledNodes.add(target);
 				
 				
 			}
 		}
-		
+		// TODO predecessors
+		// System.err.println("predecessors : "+predecessors.size());
 	}
 
 	private double getDistance(Vertex node, Vertex target) {
@@ -131,7 +146,8 @@ public class Dijkstra {
 					&& !isSettled(edge.getToVertex())) {
 
 				neighbors.add(edge.getToVertex());
-				
+				// TODO
+				// System.err.println("neighbors : " +neighbors.size());
 			}
 
 		}
@@ -150,6 +166,7 @@ public class Dijkstra {
 	public LinkedList<Vertex> getPath(Vertex target) {
 		LinkedList<Vertex> path = new LinkedList<Vertex>();
 		Vertex step = target;
+		System.err.println("PREDECESSOR : "+predecessors);
 		// Check if a path exists
 		if (predecessors.get(step) == null) {
 			return null;
@@ -162,15 +179,8 @@ public class Dijkstra {
 		// Put it into the correct order
 		Collections.reverse(path);
 		
-		System.err.println("\n"+predecessors);
+		
 		return path;
 	}
-
-	public Collection<Vertex> getPredecessors() {
-		return predecessors.values();
-	}
-
-	
-	
 
 }

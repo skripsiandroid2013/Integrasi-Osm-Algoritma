@@ -118,6 +118,7 @@ public class Way extends AbstractNode {
 		return false;
 	}
 
+	
 	// Added by Joris Maervoet, KaHoSL
 	public String getMaxSpeed() {
 		return tags.get("maxspeed");
