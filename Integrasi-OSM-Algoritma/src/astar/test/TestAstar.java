@@ -18,7 +18,7 @@ import astar.graph.builder.GraphBuilder;
 import astar.model.Graph;
 import astar.model.Key;
 import astar.model.Vertex;
-import astar.util.ValueSortMap;
+
 
 public class TestAstar {
 
