@@ -27,25 +27,30 @@ public class TestDijkstra {
 
 		Dijkstra dijkstra = new Dijkstra(graph);
 
-		String location[] = Geocode.request();
-		System.out.println(location[0] + ", " + location[1]);
+		//String location[] = Geocode.request();
+		//System.out.println(location[0] + ", " + location[1]);
 
-		// OSMNode startNode = MapMatchingUtil.doMatching(graph.getVertexs(),
-		// location[0], location[1]);
-		//
-		// Vertex src = graph.fromVertex(new Key("-7.3271793","112.7791673"));
-		Vertex src = graph.fromVertex(new Key("-7.3298113", "112.8042761"));
-		// Vertex src = graph.fromVertex(new Key(startNode.lat,startNode.lon));
-
+		// buat ngetes, biar < geocoding = gag adoh2 ;
+		String unMatchLatLon[] = {"-7.329749","112.804808"}; // LatLon ini tidak ada di graph, cek google maps 
+		OSMNode startNode = MapMatchingUtil.doMatching(graph.getVertexs(),
+				unMatchLatLon[0], unMatchLatLon[1]);
+				
+		
+		//Vertex src = graph.fromVertex(new Key("-7.33035","112.804049"));
+		Vertex src = graph.fromVertex(new Key(startNode.lat,startNode.lon));
+		System.out.println("Src vertex = id : "+src+ " latlon : " + src.getNode().lat + " , " +src.getNode().lon);
+		
+		
 		dijkstra.execute(src);
 
-		System.out.println("Src vertex : " + src);
-
-		Vertex dst = graph.toVertex(new Key("-7.3315294", "112.8033978"));
-		System.out.println("Dst vertex : " + dst);
+		
+		Vertex dst = graph.toVertex(new Key("-7.3299528","112.8038842"));
+		System.out.println("Dst vertex = id : "+dst+ " latlon : " + dst.getNode().lat + " , " +dst.getNode().lon);
 
 		LinkedList<Vertex> path = dijkstra.getPath(dst);
 		System.out.println(dijkstra.getPredecessors());
+		
+		//fixed path not found
 		if (path == null) {
 			OSMNode goalNode = MapMatchingUtil.doMatching(dijkstra.getPredecessors(),
 					dst.getNode().lat, dst.getNode().lon);

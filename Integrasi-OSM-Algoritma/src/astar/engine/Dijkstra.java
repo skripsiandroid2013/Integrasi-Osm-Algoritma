@@ -162,7 +162,7 @@ public class Dijkstra {
 		// Put it into the correct order
 		Collections.reverse(path);
 		
-		System.err.println("\n"+predecessors);
+	//	System.err.println("\n"+predecessors);
 		return path;
 	}
 
