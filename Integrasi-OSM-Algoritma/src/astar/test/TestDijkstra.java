@@ -16,7 +16,7 @@ public class TestDijkstra {
 
 	@Test
 	public void testAlgoritmaDijkstra() throws Exception {
-		GraphBuilder builder = new GraphBuilder("data/surabaya.osm");
+		GraphBuilder builder = new GraphBuilder("data/surabaya_new.osm");
 
 		Graph graph = builder.getGraph();
 
@@ -26,26 +26,26 @@ public class TestDijkstra {
 		// System.out.println(location[0] + ", " + location[1]);
 
 		// buat ngetes, biar < geocoding = gag adoh2 ;
-		String unMatchLatLon[] = { "-7.329749", "112.804808" }; // LatLon ini
+		String unMatchLatLon[] = { "-7.3609237","112.7735955" }; // LatLon ini
 																// tidak ada di
 																// graph, cek
 																// google maps
 		OSMNode startNode = MapMatchingUtil.doMatching(graph.getVertexs(),
 				unMatchLatLon[0], unMatchLatLon[1]);
 
-		// Vertex src = graph.fromVertex(new Key("-7.33035","112.804049"));
+	//	Vertex src = graph.fromVertex(new Key("-7.3609237","112.7735955"));
 		Vertex src = graph.fromVertex(new Key(startNode.lat, startNode.lon));
 		System.out.println("Src vertex = id : " + src + " latlon : "
 				+ src.getNode().lat + " , " + src.getNode().lon);
 
 		dijkstra.execute(src);
 
-		Vertex dst = graph.toVertex(new Key("-7.3299528", "112.8038842"));
+		Vertex dst = graph.toVertex(new Key("-7.2895664", "112.7805496"));
 		System.out.println("Dst vertex = id : " + dst + " latlon : "
 				+ dst.getNode().lat + " , " + dst.getNode().lon);
 
 		LinkedList<Vertex> path = dijkstra.getPath(dst);
-		System.out.println(dijkstra.getPredecessors());
+	//	System.out.println(dijkstra.getPredecessors());
 
 		// fixed path not found
 		if (path == null) {

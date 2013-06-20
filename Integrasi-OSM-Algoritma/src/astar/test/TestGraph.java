@@ -19,7 +19,7 @@ public class TestGraph {
 
 	@Test
 	public void testGraphBuilder() throws Exception {
-		GraphBuilder builder = new GraphBuilder("data/surabaya.osm");
+		GraphBuilder builder = new GraphBuilder("data/surabaya_new.osm");
 		Graph graph = builder.getGraph();
 		assertNotNull("graph loaded !", graph);
 
